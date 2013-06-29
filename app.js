@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -8,9 +7,10 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
-  , BeerProvider = require('./beerprovider.js').BeerProvider;
+  , BeerProvider = require('./beerprovider.js').BeerProvider;  
 
 var app = express();
+var beerProvider= new BeerProvider('localhost', 27017);
 
 // all environments
 app.set('title', 'Beers')
@@ -25,18 +25,9 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-// development only
-if ('development' == app.get('env') || 'dev' == app.get('env')) {
-  console.log('[development mode]');
-  app.use(express.errorHandler());
-}
-
+//Routes
 app.get('/', routes.index);
 app.get('/users', user.list);
-
-var beerProvider= new BeerProvider('localhost', 27017);
-
-//Routes
 
 app.get('/', function(req, res){
     beerProvider.findAll(function(error, emps){
@@ -62,6 +53,12 @@ app.post('/beer/new', function(req, res){
         res.redirect('/')
     });
 });
+
+// Check for development mode
+if ('development' == app.get('env') || 'dev' == app.get('env')) {
+  console.log('[development mode]');
+  app.use(express.errorHandler());
+}
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
