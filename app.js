@@ -13,9 +13,11 @@ var express = require('express')
 var app = express();
 
 // all environments
+app.set('title', 'Beers')
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
@@ -24,7 +26,8 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
-if ('development' == app.get('env')) {
+if ('development' == app.get('env') || 'dev' == app.get('env')) {
+  console.log('[development mode]');
   app.use(express.errorHandler());
 }
 
@@ -61,4 +64,5 @@ app.post('/beer/new', function(req, res){
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
+  console.log(' - static resources @ ' + path.join(__dirname, 'public'));
 });
