@@ -7,7 +7,8 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , BeerProvider = require('./beerprovider.js').BeerProvider;
 
 var app = express();
 
@@ -32,6 +33,35 @@ if ('development' == app.get('env') || 'dev' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
+
+var beerProvider= new BeerProvider('localhost', 27017);
+
+//Routes
+
+app.get('/', function(req, res){
+    beerProvider.findAll(function(error, emps){
+        res.render('index', {
+            title: 'Beers',
+            beers:emps
+        });
+    });
+});
+
+app.get('/beer/new', function(req, res) {
+    res.render('beer_new', {
+        title: 'New Beer'
+    });
+});
+
+//save new beer
+app.post('/beer/new', function(req, res){
+    beerProvider.save({
+        title: req.param('title'),
+        name: req.param('name')
+    }, function( error, docs) {
+        res.redirect('/')
+    });
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
