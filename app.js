@@ -8,7 +8,7 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
-  , BeerProvider = require('./beerprovider.js').BeerProvider;
+  , BeerProvider = require('./beerprovider').BeerProvider;
 
 var app = express();
 
@@ -28,7 +28,6 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
 app.get('/users', user.list);
 
 var beerProvider= new BeerProvider('localhost', 27017);
@@ -36,10 +35,10 @@ var beerProvider= new BeerProvider('localhost', 27017);
 //Routes
 
 app.get('/', function(req, res){
-    beerProvider.findAll(function(error, emps){
+    beerProvider.findAll(function(error, beers){
         res.render('index', {
             title: 'Beers',
-            beers:emps
+            beers:beers
         });
     });
 });
