@@ -23,18 +23,18 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/static', express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 app.get('/users', user.list);
+
 // Beer Mapping
 app.get('/api/beers', api.beers.get);
 app.post('/api/beers', api.beers.post);
 app.put('/api/beers/:id', api.beers.put);
 app.delete('/api/beers/:id', api.beers.delete);
-app.get('*', routes.index);
 
 // Check for development mode
 app.configure('production', function(){
