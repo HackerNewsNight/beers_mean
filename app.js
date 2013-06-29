@@ -10,7 +10,7 @@ var express = require('express')
   , BeerProvider = require('./beerprovider').BeerProvider;
 
 var app = express();
-var beerProvider= new BeerProvider('localhost', 27017);
+var bp = new BeerProvider('localhost', 27017);
 
 // all environments
 app.set('debug', true);
@@ -27,32 +27,32 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.get('/users', user.list);
-
 app.get('/', function(req, res){
-    beerProvider.findAll(function(error, beers){
-        res.render('index', {
-            title: 'Beers',
-            beers:beers
-        });
+  bp.findAll(function(error, beers){
+    res.render('index', {
+      title: 'Beers',
+      beers: beers
     });
+  });
 });
 
-app.get('/beer/new', function(req, res) {
-  res.render('beer_new', {
+app.get('/users', user.list);
+
+app.get('/beers/new', function(req, res) {
+  res.render('beers_new', {
     title: 'New Beer'
   });
 });
 
-// Save new beer
-app.post('/beer/new', function(req, res){
-  beerProvider.save({
+app.post('/beers/new', function(req, res){
+  bp.save({
     title: req.param('title'),
     name: req.param('name')
   }, function( error, docs) {
     res.redirect('/')
   });
 });
+
 
 // Check for development mode
 app.configure('production', function(){
@@ -65,5 +65,5 @@ http.createServer(app).listen(app.get('port'), function(){
     serverMsg += ' [debug mode]';
   }
   console.log(serverMsg);
-  console.log(' - static resources @ ' + path.join(__dirname, 'public'));
+  console.log('- static resources @ ' + path.join(__dirname, 'public'));
 });

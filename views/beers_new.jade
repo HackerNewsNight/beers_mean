@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h1= title
+  div.newemployee
+    form( method="post")
+      div
+        div
+          span.label Brewer :
+          input(type="text", name="brewer", id="editBeerTitle")
+        div
+          span.label Name :
+          input(type="text", name="name", id="editBeerName")
+        div
+          span.label Country :
+          input(type="text", name="country", id="editBeerCountry")
+        div
+          span.label Score :
+          input(type="text", name="score", id="editBeerScore")
+        div#editEmployeeSubmit
+          input(type="submit", value="Save")
+    a(href="/")!= "Back to Beer List"
