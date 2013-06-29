@@ -3,16 +3,12 @@ extends layout
 block content
   h1= title
   
-  a(href="/beers/new")!= "New Beer"
-  #beerList
-    
-    table
-      thead
-        tr
-          th Name
-          th Brewer
-      tbody
-        each beer in beers
-          tr
-            td #{beer.name}
-            td #{beer.brewer}
+  div(ng-view)
+  
+  //if (!dev) https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js
+  script(src='lib/angular/angular.min.js')
+  script(src='javascripts/app.js')
+  script(src='javascripts/services.js')
+  script(src='javascripts/controllers.js')
+  script(src='javascripts/filters.js')
+  script(src='javascripts/directives.js')
