@@ -4,13 +4,12 @@
 
 var express = require('express')
   , routes = require('./routes')
+  , api = require('./routes/api.js')
   , user = require('./routes/user')
   , http = require('http')
-  , path = require('path')
-  , BeerProvider = require('./beerprovider').BeerProvider;
+  , path = require('path');
 
 var app = express();
-var bp = new BeerProvider('localhost', 27017);
 
 // all environments
 app.set('debug', true);
@@ -27,32 +26,17 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.get('/', function(req, res){
-  bp.findAll(function(error, beers){
-    res.render('index', {
-      title: 'Beers',
-      beers: beers
-    });
-  });
-});
+
+app.get('/', routes.index);
+app.get('/partials/:name', routes.partials);
 
 app.get('/users', user.list);
 
-app.get('/beers/new', function(req, res) {
-  res.render('beers_new', {
-    title: 'New Beer'
-  });
-});
-
-app.post('/beers/new', function(req, res){
-  bp.save({
-    title: req.param('title'),
-    name: req.param('name')
-  }, function( error, docs) {
-    res.redirect('/')
-  });
-});
-
+// Beer Mapping
+app.get('/api/beers', api.beers.get);
+app.post('/api/beers', api.beers.post);
+app.put('/api/beers/:id', api.beers.put);
+app.delete('/api/beers/:id', api.beers.delete);
 
 // Check for development mode
 app.configure('production', function(){
