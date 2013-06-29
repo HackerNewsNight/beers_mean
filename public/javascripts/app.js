@@ -1,24 +1,23 @@
 'use strict';
 
-var beerApp = angular.module('', []);
+var beerApp = angular.module('beerApp', []);
 
 beerApp.config(
 	 function($routeProvider, $locationProvider) {
 		$routeProvider.when('/', {
-			templateUrl: '/partials/landing.html',
+			templateUrl: '/partials/landing',
 			controller: 'LandingCtrl'
 		});
-
 		$routeProvider.when('/beers', {
-			templateUrl: '/partials/beers.html',
-			controller: 'TasksCtrl'
+			templateUrl: '/partials/beers',
+			controller: 'BeersCtrl'
 		});
 		$routeProvider.when('/beers/:id', {
-			templateUrl: '/partials/beer.html',
-			controller: 'TransactionsCtrl'
+			templateUrl: '/partials/beer',
+			controller: 'BeerCtrl'
 		});
 		$routeProvider.otherwise({
-			templateUrl: 'partials/404.html'
+			templateUrl: '/partials/404'
 		});
 		$locationProvider.html5Mode(true);
 	}
