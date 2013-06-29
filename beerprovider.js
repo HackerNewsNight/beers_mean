@@ -5,7 +5,7 @@ var BSON = require('mongodb').BSON;
 var ObjectID = require('mongodb').ObjectID;
 
 BeerProvider = function(host, port) {
-    this.db= new Db('node-mongo-Beer', new Server(host, port, {safe: false}, {auto_reconnect: true}, {}));
+    this.db= new Db('node-mongo-Beer', new Server(host, port, {safe: false}, {auto_reconnect: true}, {}), {safe: true});
     this.db.open(function(){});
 };
 
