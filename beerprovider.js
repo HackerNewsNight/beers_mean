@@ -17,7 +17,7 @@ BeerProvider.prototype.getCollection= function(callback) {
     });
 };
 
-//find all Beers
+// Find all Beers
 BeerProvider.prototype.findAll = function(callback) {
     this.getCollection(function(error, Beer_collection) {
         if( error ) callback(error)
@@ -30,7 +30,7 @@ BeerProvider.prototype.findAll = function(callback) {
     });
 };
 
-//save new Beer
+// Save new Beer
 BeerProvider.prototype.save = function(Beers, callback) {
     this.getCollection(function(error, Beer_collection) {
         if( error ) callback(error)

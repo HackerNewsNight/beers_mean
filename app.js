@@ -7,13 +7,14 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
-  , BeerProvider = require('./beerprovider.js').BeerProvider;  
+  , BeerProvider = require('./beerprovider').BeerProvider;
 
 var app = express();
 var beerProvider= new BeerProvider('localhost', 27017);
 
 // all environments
-app.set('title', 'Beers')
+app.set('debug', true);
+app.set('title', 'Beers');
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
@@ -25,42 +26,44 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-//Routes
-app.get('/', routes.index);
+// Routes
 app.get('/users', user.list);
 
 app.get('/', function(req, res){
-    beerProvider.findAll(function(error, emps){
+    beerProvider.findAll(function(error, beers){
         res.render('index', {
             title: 'Beers',
-            beers:emps
+            beers:beers
         });
     });
 });
 
 app.get('/beer/new', function(req, res) {
-    res.render('beer_new', {
-        title: 'New Beer'
-    });
+  res.render('beer_new', {
+    title: 'New Beer'
+  });
 });
 
-//save new beer
+// Save new beer
 app.post('/beer/new', function(req, res){
-    beerProvider.save({
-        title: req.param('title'),
-        name: req.param('name')
-    }, function( error, docs) {
-        res.redirect('/')
-    });
+  beerProvider.save({
+    title: req.param('title'),
+    name: req.param('name')
+  }, function( error, docs) {
+    res.redirect('/')
+  });
 });
 
 // Check for development mode
-if ('development' == app.get('env') || 'dev' == app.get('env')) {
-  console.log('[development mode]');
-  app.use(express.errorHandler());
-}
+app.configure('production', function(){
+	app.set('debug', false);
+})
 
 http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+  serverMsg = 'Express server listening on port ' + app.get('port');
+  if (app.get('debug') == true){
+    serverMsg += ' [debug mode]';
+  }
+  console.log(serverMsg);
   console.log(' - static resources @ ' + path.join(__dirname, 'public'));
 });
