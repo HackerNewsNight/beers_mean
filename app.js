@@ -34,9 +34,9 @@ app.get('/users', user.list);
 app.get('/api/beers', api.beers.get);
 app.post('/api/beers', api.beers.post);
 app.put('/api/beers/:id', api.beers.put);
-app.delete('/api/beers/:id', api.beers.delete);
+//app.destroy('/api/beers/:id', api.beers.del);
 
-// All other routes at the root go to index. (Angular will route ng-view based on the action;
+// All other routes at the root go to index. (Angular will route ng-view based on the action);
 app.get('/:action', routes.index);
 
 // Check for development mode

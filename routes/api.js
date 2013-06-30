@@ -20,10 +20,10 @@ exports.beers.get = function(req, res){
 };
 
 exports.beers.post = function(req, res){
-    res.render('TODO: POST');
+    res.render('TODO: Do some posting here.... ');
 };
 
-exports.beers.delete = function(req, res){
+exports.beers.destroy = function(req, res){
     res.render('TODO: DELETE')
 }
 
