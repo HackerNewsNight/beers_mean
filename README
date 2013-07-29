@@ -1,6 +1,19 @@
-install dependencies:
-	$ cd . && npm install
+Beer App
+=
 
-run the app:
-	$ mongod --dbpath data/db
-	$ node app
+MEAN Stack
+==
+The MEAN Stack: MongoDB, ExpressJS, AngularJS and Node.js
+http://blog.mongodb.org/post/49262866911/the-mean-stack-mongodb-expressjs-angularjs-and
+
+Install
+==
+ 1. install dependencies:
+	`npm install`
+
+Run
+==
+ 1. Run mongo db:
+	`$ mongod --dbpath data/db`
+ 2. Run the server:
+	`$ node app`
