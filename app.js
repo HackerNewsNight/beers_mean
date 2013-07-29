@@ -39,16 +39,19 @@ app.put('/api/beers/:id', api.beers.put);
 // All other routes at the root go to index. (Angular will route ng-view based on the action);
 app.get('/:action', routes.index);
 
-// Check for development mode
-app.configure('production', function(){
-	app.set('debug', false);
-})
+// Development settings:
+//  - Increase error verbosity
+//  - Print pretty html
+app.configure('development', function(){
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  app.locals.pretty = true; // Print pretty html
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   serverMsg = 'Express server listening on port ' + app.get('port');
-  if (app.get('debug') == true){
-    serverMsg += ' [debug mode]';
-  }
+  app.configure('development', function(){
+    serverMsg += ' [development mode]';
+  });
   console.log(serverMsg);
   console.log('- static resources @ ' + path.join(__dirname, 'public'));
 });
