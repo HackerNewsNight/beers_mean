@@ -16,4 +16,4 @@ Run
  1. Run mongo db:
 	`$ mongod --dbpath data/db`
  2. Run the server:
-	`$ node app`
+	`$ node server.js`
