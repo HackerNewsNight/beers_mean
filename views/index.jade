@@ -4,8 +4,10 @@ block body
   h1= title
   
   div(ng-view)
-  
-  //if (!dev) https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js
+
+block scripts
+  script(src='//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.js')
+  script(src='static/lib/bootstrap/js/bootstrap.min.js')
   script(src='static/lib/angular/angular.min.js')
   script(src='static/javascripts/app.js')
   script(src='static/javascripts/services.js')
