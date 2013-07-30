@@ -7,7 +7,6 @@ exports.beers.get = function(req, res){
     var id = req.params.id;
     if(id){
         console.log('this request has an id attached to it')
-
     }
     else {
         console.log('get all beers')
