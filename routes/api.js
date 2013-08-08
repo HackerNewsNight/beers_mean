@@ -1,4 +1,4 @@
-BeerProvider = require('../beerprovider').BeerProvider;
+BeerProvider = require('../api/beerprovider').BeerProvider;
 var bp = new BeerProvider('localhost', 27017);
 
 exports.beers = {};
